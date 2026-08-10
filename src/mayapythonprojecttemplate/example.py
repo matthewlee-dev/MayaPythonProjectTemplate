@@ -1,4 +1,4 @@
-""" mayapythonprojecttemplate package. """
+"""mayapythonprojecttemplate package."""
 
 from maya import cmds
 

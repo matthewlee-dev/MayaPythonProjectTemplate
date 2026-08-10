@@ -78,8 +78,8 @@ jobs:
 
       - name: Set Maya environment variables
         run: |
-          export XDG_RUNTIME_DIR=/var/tmp/runtime-root
-          export MAYA_DISABLE_ADP=1
+          echo "XDG_RUNTIME_DIR=/var/tmp/runtime-root" >> $GITHUB_ENV
+          echo "MAYA_DISABLE_ADP=1" >> $GITHUB_ENV
 
       - name: Run tests
         run:  mayapy -m pytest tests
