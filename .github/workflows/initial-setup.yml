@@ -12,7 +12,7 @@ env:
 
 jobs:
   setup:
-    if: github.repository != 'mattdeform/MayaPythonProjectTemplate'
+    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
     runs-on: ubuntu-latest
     
     permissions:

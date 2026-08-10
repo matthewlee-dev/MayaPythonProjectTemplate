@@ -5,7 +5,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
-  <a href="https://github.com/mattdeform/MayaPythonProjectTemplate">
+  <a href="https://github.com/matthewlee-dev/MayaPythonProjectTemplate">
     <img src="docs/resources/images/maya_python_logo.png" alt="MayaPythonLogo" width="175" height="175">
   </a>
 
@@ -17,13 +17,13 @@
 
   <p align="center">
     A GitHub template for Maya Python tools<br>
-    <a href="https://github.com/mattdeform/MayaPythonProjectTemplate/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/matthewlee-dev/MayaPythonProjectTemplate/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/mattdeform/MayaPythonProjectTemplate/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/matthewlee-dev/MayaPythonProjectTemplate/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
-> Example project built using this template can be found [here](https://github.com/mattdeform/locator_creator). 
+> Example project built using this template can be found [here](https://github.com/matthewlee-dev/locator_creator). 
 
 ## HOW TO USE THIS TEMPLATE
 
@@ -72,4 +72,4 @@
 [maya-url]: https://www.autodesk.com/nz/products/maya/overview
 
 <!-- template links -->
-[use-template-link]: https://github.com/mattdeform/MayaPythonProjectTemplate/generate
+[use-template-link]: https://github.com/matthewlee-dev/MayaPythonProjectTemplate/generate
