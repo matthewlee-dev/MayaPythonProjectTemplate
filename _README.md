@@ -17,7 +17,7 @@
   </a>
 
 [![Python][python_3-shield]][python-url]
-[![Maya][maya-2024-shield]][maya-2024-url]
+[![Maya][maya-2024-2027-shield]][maya-2027-url]
 [![Maya][maya-cmds-shield]][maya-cmds-url]
 
 <h3 align="center">{{PROJECT_NAME}}</h3>
@@ -154,9 +154,7 @@ Please reach out via the [request a feature](https://github.com/{{PROJECT_OWNER}
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-* Project template by [TechArtOps](https://www.techartops.com).
-* foo
-* bar
+* Project template by [matthewlee-dev](https://deform.dev).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -192,10 +190,15 @@ Please reach out via the [request a feature](https://github.com/{{PROJECT_OWNER}
 [maya-2024-url]: https://help.autodesk.com/view/MAYAUL/2024/ENU/
 [maya-2025-shield]: https://img.shields.io/badge/Maya-2025-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
 [maya-2025-url]: https://help.autodesk.com/view/MAYAUL/2025/ENU/
+[maya-2026-shield]: https://img.shields.io/badge/Maya-2026-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
+[maya-2026-url]: https://help.autodesk.com/view/MAYAUL/2026/ENU/
+[maya-2027-shield]: https://img.shields.io/badge/Maya-2027-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
+[maya-2027-url]: https://help.autodesk.com/view/MAYAUL/2027/ENU/
+[maya-2024-2027-shield]: https://img.shields.io/badge/Maya-2024_--_2027-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
 [maya-cmds-shield]: https://img.shields.io/badge/Maya-cmds-%2337A5CC?logo=autodeskmaya
-[maya-cmds-url]: https://help.autodesk.com/view/MAYAUL/2023/ENU/?guid=__CommandsPython_index_html
+[maya-cmds-url]: https://help.autodesk.com/cloudhelp/2027/ENU/Maya-Tech-Docs/CommandsPython/
 [maya-openmaya-shield]: https://img.shields.io/badge/Maya-OpenMaya-%2337A5CC?logo=autodeskmaya
-[maya-openmaya-url]: https://help.autodesk.com/view/MAYAUL/2022/ENU/?guid=Maya_SDK_Maya_Python_API_Maya_Python_API_1_0_html
+[maya-openmaya-url]: https://help.autodesk.com/view/MAYADEV/2027/ENU/?guid=Maya_DEVHELP_Maya_Python_API_Maya_Python_API_1_0_Using_the_Maya_Python_API_html
 [maya-api-openmaya-shield]: https://img.shields.io/badge/Maya-api.OpenMaya-%2337A5CC?logo=autodeskmaya
-[maya-api-openmaya-url]: https://help.autodesk.com/view/MAYAUL/2022/ENU/?guid=Maya_SDK_py_ref_index_html
+[maya-api-openmaya-url]: https://help.autodesk.com/cloudhelp/2027/ENU/MAYA-API-REF/py_ref/
 [maya-url]: https://www.autodesk.com/nz/products/maya/overview

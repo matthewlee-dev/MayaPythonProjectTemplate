@@ -6,15 +6,15 @@ on:
 jobs:
 
   static-analysis:
-    if: github.repository != 'mattdeform/MayaPythonProjectTemplate'
+    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
     uses: ./.github/workflows/reusable-static-analysis.yml
 
   tests:
-    if: github.repository != 'mattdeform/MayaPythonProjectTemplate'
+    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
     uses: ./.github/workflows/reusable-maya-tests.yml
 
   do_release:
-    if: github.repository != 'mattdeform/MayaPythonProjectTemplate'
+    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
     needs: [tests]
     uses: ./.github/workflows/reusable-semantic-release.yml
     permissions:
@@ -22,7 +22,7 @@ jobs:
       id-token: write
 
   docs:
-    if: github.repository != 'mattdeform/MayaPythonProjectTemplate'
+    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
     needs: [tests, do_release]  # only build docs when release is successful
     uses: ./.github/workflows/reusable-build-and-deploy-docs.yml
     permissions:
