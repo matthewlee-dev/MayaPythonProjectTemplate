@@ -1,0 +1,24 @@
+name: reusable / template tests
+
+on:
+  workflow_call:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+
+  template-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7
+      with:
+        enable-cache: true
+        python-version: "3.13"
+
+    # pyyaml stays out of pyproject.toml so generated projects don't inherit it.
+    # Must be `python -m pytest`: the console script misses the --with overlay.
+    - name: Run template tests
+      run: uv run --only-group test --with pyyaml python -m pytest tests/template

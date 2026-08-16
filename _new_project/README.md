@@ -5,9 +5,8 @@
 
 [![CI](https://github.com/{{PROJECT_OWNER}}/{{PROJECT_NAME}}/actions/workflows/ci-main.yml/badge.svg)](https://github.com/{{PROJECT_OWNER}}/{{PROJECT_NAME}}/actions/workflows/ci-main.yml)
 [![pytest][pytest-shield]][pytest-url]
-[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+[![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
 <!-- PROJECT LOGO -->
@@ -20,7 +19,7 @@
 [![Maya][maya-2024-2027-shield]][maya-2027-url]
 [![Maya][maya-cmds-shield]][maya-cmds-url]
 
-<h3 align="center">{{PROJECT_NAME}}</h3>
+<h3 align="center">{{PROJECT_TITLE}}</h3>
   {{PROJECT_DESC}}
   <br />
   <p align="center">
@@ -98,7 +97,7 @@ Please replace this text with a list of pre-requisites for the project.
 
 ### Installation
 
-1. Either clone the repo or download the zip file from the [project page][project-link] and extract it. 
+1. Clone the repo, or download and extract the zip from the [project page][project-link].
     ```sh
     git clone https://github.com/{{PROJECT_OWNER}}/{{PROJECT_NAME}}.git  
     ```
@@ -169,23 +168,12 @@ Please reach out via the [request a feature](https://github.com/{{PROJECT_OWNER}
 
 
 <!-- Python -->
-[python-shield]: https://img.shields.io/badge/python-3670A0?logo=python&logoColor=ffdd54
-[python_2-shield]: https://img.shields.io/badge/Python-2.X-grey?logo=python&logoColor=ffdd54&labelColor=%233670A0
 [python_3-shield]: https://img.shields.io/badge/Python-3.X-grey?logo=python&logoColor=ffdd54&labelColor=%233670A0
 [python-url]: https://python.org/
 [pytest-shield]: https://img.shields.io/badge/tests-pytest-%230A9EDC
 [pytest-url]: https://docs.pytest.org/
-[github-shield]: https://img.shields.io/badge/GitHub-%23181717?logo=github
-[github-url]: https://github.com/
-[github-actions-shield]: https://img.shields.io/badge/GitHub%20Actions-%232671E5?logo=githubactions&logoColor=white
-[github-actions-url]: https://github.com/features/actions
 
-<!-- Maya -->
-[maya-shield]: https://img.shields.io/badge/Autodesk-Maya-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
-[maya-2022-shield]: https://img.shields.io/badge/Maya-2022-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
-[maya-2022-url]: https://help.autodesk.com/view/MAYAUL/2022/ENU/
-[maya-2023-shield]: https://img.shields.io/badge/Maya-2023-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
-[maya-2023-url]: https://help.autodesk.com/view/MAYAUL/2023/ENU/
+<!-- Maya: swap the header badges for the variants your tool targets -->
 [maya-2024-shield]: https://img.shields.io/badge/Maya-2024-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
 [maya-2024-url]: https://help.autodesk.com/view/MAYAUL/2024/ENU/
 [maya-2025-shield]: https://img.shields.io/badge/Maya-2025-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC

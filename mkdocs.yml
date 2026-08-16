@@ -1,22 +1,39 @@
-site_name: {{SITE_NAME}}
+site_name: Maya Python Project Template
+repo_url: https://github.com/matthewlee-dev/maya-python-project-template
+repo_name: matthewlee-dev/maya-python-project-template
 theme:
   name: material
   language: en
+  # Setup swaps this file for the generated project's logo, so the path holds
+  # for both.
+  logo: resources/images/maya_python_logo.png
+  favicon: resources/images/maya_python_logo.png
   palette:
     - scheme: slate
-      primary: blue
+      primary: black
       accent: teal
 
-  plugins:
-  - search:
-  - mkdocstrings:
-      default_handler: python
-      handlers:
-        python:
-          rendering:
-            show_source: true
-      watch:
-        - src
+plugins:
+- search:
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        # Docs CI syncs only the docs group, so the project isn't installed.
+        paths: [src]
+        options:
+          show_source: true
+
+watch:
+  - src
 
 nav:
   - index.md
+  - getting-started.md
+  - project-layout.md
+  - writing-your-tool.md
+  - testing.md
+  - ci.md
+  - releasing.md
+  - documentation.md
+  - reference.md

@@ -1,0 +1,119 @@
+name: reusable / release
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.2.3, no leading v)"
+        required: true
+        type: string
+      platforms:
+        description: "Comma-separated platforms to vendor runtime deps for (win64, linux, mac). Ignored if the project has no runtime deps."
+        required: false
+        type: string
+        default: "win64,linux,mac"
+      maya_versions:
+        description: "Comma-separated Maya versions to vendor runtime deps for. Ignored if the project has no runtime deps."
+        required: false
+        type: string
+        default: "2024,2025,2026,2027"
+      vendor_deps:
+        description: "Vendor runtime dependencies into the module. Uncheck to ship without them even if the project has dependencies."
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # Workflow inputs reach the shell through `env:`, never by `${{ }}`
+      # expansion inside `run:`. Direct expansion pastes the raw string into the
+      # script before bash parses it, so an input can close the quote and run
+      # arbitrary commands with this job's `contents: write` token, including in
+      # the guard step below, which would otherwise validate its input too late
+      # to matter.
+      - name: Guard version + tag
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::version '$VERSION' is not x.y.z"
+            exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
+            echo "::error::tag v$VERSION already exists"
+            exit 1
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set version in pyproject.toml
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          uv lock  # keep uv.lock's root-package version in sync with the bump
+
+      # Build and zip BEFORE any push: everything likely to fail (missing
+      # wheels, bad src/ layout) fails while the remote is untouched, so a
+      # failed release is a no-op that can simply be re-dispatched.
+      - name: Build Maya module
+        env:
+          VERSION: ${{ inputs.version }}
+          PLATFORMS: ${{ inputs.platforms }}
+          MAYA_VERSIONS: ${{ inputs.maya_versions }}
+          VENDOR_DEPS: ${{ inputs.vendor_deps }}
+        run: |
+          args=(--clean --version "$VERSION" --platforms "$PLATFORMS" --maya-versions "$MAYA_VERSIONS")
+          if [[ "$VENDOR_DEPS" != "true" ]]; then
+            args+=(--skip-vendor)
+          fi
+          python3 scripts/build_module.py "${args[@]}"
+
+      - name: Zip module (dot-free name)
+        # Hyphenate dots: macOS Archive Utility truncates the extracted folder
+        # name at the first '.'.
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          NAME=$(python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['name'])")
+          VERSION_SAFE="${VERSION//./-}"
+          echo "ZIP_PATH=/tmp/${NAME}-${VERSION_SAFE}.zip" >> "$GITHUB_ENV"
+          echo "NAME=${NAME}" >> "$GITHUB_ENV"
+          (cd dist && zip -rq "/tmp/${NAME}-${VERSION_SAFE}.zip" .)
+
+      - name: Commit version bump
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add pyproject.toml uv.lock
+          # Skip the commit on a re-run where the bump already landed, so a
+          # release that failed after pushing can be re-dispatched.
+          git diff --cached --quiet || git commit -m "chore: release v$VERSION"
+          git push
+
+      # gh creates the tag along with the release, pointing at the bump
+      # commit; tag + release are one final step, so the guard's "tag
+      # exists" check really means "this release already happened".
+      - name: Create GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          gh release create "v$VERSION" "$ZIP_PATH" \
+            --target "$(git rev-parse HEAD)" \
+            --title "v$VERSION" \
+            --generate-notes \
+            --notes "Download the zip, extract it, and drag \`${NAME}_drag_and_drop_installer.py\` into a Maya viewport (or extract into your Maya modules dir manually)."

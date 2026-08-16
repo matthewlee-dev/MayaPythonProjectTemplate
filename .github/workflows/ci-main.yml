@@ -1,3 +1,5 @@
+# Thin trigger wrapper, job logic lives in reusable-*.yml so ci-main and
+# ci-release share it.
 name: CI
 
 on:
@@ -9,10 +11,12 @@ on:
 
 jobs:
 
+  # Guarded so the template doesn't run these twice: template-ci.yml already
+  # runs static analysis, and Maya tests need a real project.
   static-analysis:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
+    if: ${{ !github.event.repository.is_template }}
     uses: ./.github/workflows/reusable-static-analysis.yml
 
   tests:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
+    if: ${{ !github.event.repository.is_template }}
     uses: ./.github/workflows/reusable-maya-tests.yml

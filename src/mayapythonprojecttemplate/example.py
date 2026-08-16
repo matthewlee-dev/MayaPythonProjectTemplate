@@ -3,8 +3,9 @@
 from maya import cmds
 
 
-def create_locator(name: str = ""):
+def create_locator(name: str = "") -> str:
     """Create a locator with the given name.
+
     Args:
         name (str): The name to give the locator.
 
