@@ -1,7 +1,7 @@
 # AGENTS.md
 
 This is an Autodesk Maya Python tool, created from
-[MayaPythonProjectTemplate](https://github.com/matthewlee-dev/MayaPythonProjectTemplate).
+[maya-python-project-template](https://github.com/matthewlee-dev/maya-python-project-template).
 
 ## Layout
 

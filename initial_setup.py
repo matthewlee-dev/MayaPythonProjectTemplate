@@ -28,9 +28,9 @@ GENERATED_DOCS_NAV = """nav:
 # mkdocs.yml's repo link, kept as a real literal (not a {{...}} placeholder),
 # same reasoning as TEMPLATE_DOCS_NAV above.
 TEMPLATE_REPO_URL = (
-    "repo_url: https://github.com/matthewlee-dev/MayaPythonProjectTemplate"
+    "repo_url: https://github.com/matthewlee-dev/maya-python-project-template"
 )
-TEMPLATE_REPO_NAME = "repo_name: matthewlee-dev/MayaPythonProjectTemplate"
+TEMPLATE_REPO_NAME = "repo_name: matthewlee-dev/maya-python-project-template"
 
 
 def replace_text_in_file(file_name, placeholder, replacement_text, root=None):
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     # real value to work on the template repo itself.
     replace_text_in_file(
         "mkdocs.yml",
-        "site_name: MayaPythonProjectTemplate",
+        "site_name: maya-python-project-template",
         f"site_name: {project_name}",
     )
     # repo_url/repo_name carry real values (not {{...}} placeholders), same
@@ -209,8 +209,7 @@ if __name__ == "__main__":
         f'"""{new_project_name} package."""',
     )
     # pyproject.toml carries real values (not {{...}} placeholders) so the template
-    # repo itself stays valid TOML for uv. Replace the wheel path before the project
-    # name, as both contain the same literal. json.dumps produces TOML-safe strings.
+    # repo itself stays valid TOML for uv. json.dumps produces TOML-safe strings.
     replace_text_in_file(
         "pyproject.toml",
         'packages = ["src/mayapythonprojecttemplate"]',
@@ -218,7 +217,7 @@ if __name__ == "__main__":
     )
     replace_text_in_file(
         "pyproject.toml",
-        'name = "mayapythonprojecttemplate"',
+        'name = "maya-python-project-template"',
         f"name = {json.dumps(project_name)}",
     )
     replace_text_in_file(

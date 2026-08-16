@@ -1,6 +1,6 @@
-site_name: MayaPythonProjectTemplate
-repo_url: https://github.com/matthewlee-dev/MayaPythonProjectTemplate
-repo_name: matthewlee-dev/MayaPythonProjectTemplate
+site_name: maya-python-project-template
+repo_url: https://github.com/matthewlee-dev/maya-python-project-template
+repo_name: matthewlee-dev/maya-python-project-template
 theme:
   name: material
   language: en

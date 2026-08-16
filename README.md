@@ -5,11 +5,11 @@
 
 <!-- PROJECT LOGO -->
 <br />
-  <a href="https://github.com/matthewlee-dev/MayaPythonProjectTemplate">
+  <a href="https://github.com/matthewlee-dev/maya-python-project-template">
     <img src="docs/resources/images/maya_python_logo.png" alt="MayaPythonLogo" width="175" height="175">
   </a>
 
-[![CI](https://github.com/matthewlee-dev/MayaPythonProjectTemplate/actions/workflows/template-ci.yml/badge.svg)](https://github.com/matthewlee-dev/MayaPythonProjectTemplate/actions/workflows/template-ci.yml)
+[![CI](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml/badge.svg)](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml)
 [![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Python][python_3-shield]][python-url]
@@ -20,9 +20,9 @@
 
   <p align="center">
     A GitHub template for Maya Python tools<br>
-    <a href="https://github.com/matthewlee-dev/MayaPythonProjectTemplate/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/matthewlee-dev/maya-python-project-template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/matthewlee-dev/MayaPythonProjectTemplate/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/matthewlee-dev/maya-python-project-template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -45,7 +45,7 @@ This template provides a modern, reproducible foundation for that infrastructure
 No browser needed:
 
 ```sh
-gh repo create my-cool-tool --template matthewlee-dev/MayaPythonProjectTemplate --public
+gh repo create my-cool-tool --template matthewlee-dev/maya-python-project-template --public
 ```
 
 Wait for the `initial repository setup` workflow to finish before cloning. See [AGENTS.md](AGENTS.md) for the full non-interactive flow.
@@ -84,4 +84,4 @@ Wait for the `initial repository setup` workflow to finish before cloning. See [
 [maya-url]: https://www.autodesk.com/nz/products/maya/overview
 
 <!-- template links -->
-[use-template-link]: https://github.com/matthewlee-dev/MayaPythonProjectTemplate/generate
+[use-template-link]: https://github.com/matthewlee-dev/maya-python-project-template/generate

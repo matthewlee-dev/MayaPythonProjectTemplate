@@ -3,7 +3,7 @@
 ## 1. Create your repo
 
 Go to
-[the template repo](https://github.com/matthewlee-dev/MayaPythonProjectTemplate)
+[the template repo](https://github.com/matthewlee-dev/maya-python-project-template)
 and click **Use this template** → **Create a new repository**.
 
 Name it in lowercase with hyphens, like `my-cool-tool`. That name becomes your

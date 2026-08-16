@@ -1,4 +1,4 @@
-# AGENTS.md: MayaPythonProjectTemplate
+# AGENTS.md: maya-python-project-template
 
 This repository is a **GitHub template** for Autodesk Maya Python tools. If an agent
 is helping a user start a new Maya tool, create the project **from this template**
@@ -10,7 +10,7 @@ triggered release workflow.
 
 ```sh
 gh repo create <project_name> \
-  --template matthewlee-dev/MayaPythonProjectTemplate \
+  --template matthewlee-dev/maya-python-project-template \
   --public \
   --description "<one-line project description>"
 ```
@@ -50,7 +50,7 @@ The new repo has its own `AGENTS.md` with day-to-day commands (generated from
   instead.
 - `pyproject.toml` and `mkdocs.yml` deliberately contain **real** values
   (`name = "mayapythonprojecttemplate"`, real description, real wheel path,
-  `site_name: MayaPythonProjectTemplate`) rather than `{{...}}` placeholders, so both
+  `site_name: maya-python-project-template`) rather than `{{...}}` placeholders, so both
   files stay valid (TOML / YAML) and `uv`/`mkdocs build` work on a clone of the
   template itself. `initial_setup.py` string-replaces those literals during setup; if
   you change them in `pyproject.toml` or `mkdocs.yml`, update the matching literals in

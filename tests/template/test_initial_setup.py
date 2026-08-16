@@ -122,12 +122,12 @@ class TestReplaceTextInFile:
     def test_replaces_real_literal_expects_mkdocs_site_name_updated(self, tmp_path):
         # Arrange
         target = tmp_path / "mkdocs.yml"
-        target.write_text("site_name: MayaPythonProjectTemplate\n")
+        target.write_text("site_name: maya-python-project-template\n")
 
         # Act
         replace_text_in_file(
             "mkdocs.yml",
-            "site_name: MayaPythonProjectTemplate",
+            "site_name: maya-python-project-template",
             "site_name: my-cool-tool",
             root=tmp_path,
         )

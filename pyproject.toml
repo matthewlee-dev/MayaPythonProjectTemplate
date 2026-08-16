@@ -1,5 +1,5 @@
 [project]
-name = "mayapythonprojecttemplate"
+name = "maya-python-project-template"
 version = "2.0.0"
 description = "A GitHub template for Maya Python tools"
 requires-python = ">=3.10"

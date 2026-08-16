@@ -303,16 +303,7 @@ wheels = [
 ]
 
 [[package]]
-name = "maya-stubs"
-version = "0.4.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/83/ac/cb12a396f8dad98fa15dae801899e8d1ff39debdaa66fe81cd8d93e4d666/maya_stubs-0.4.2.tar.gz", hash = "sha256:86eb6901b4e341895c572a94c055d0248903720a42c22a9a507bdcfda52e9da0", size = 313929, upload-time = "2025-10-30T21:43:30.561Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/fd/39/df15b423c029fe7dcdf43814f4776fb689c86e6fc48ab36af3cae63b2732/maya_stubs-0.4.2-py3-none-any.whl", hash = "sha256:2dd28457af1877293f5b7544eea5a14384ad89b5a59796847c6c68c1a44f0db9", size = 258974, upload-time = "2025-10-30T21:43:28.101Z" },
-]
-
-[[package]]
-name = "mayapythonprojecttemplate"
+name = "maya-python-project-template"
 version = "2.0.0"
 source = { editable = "." }
 
@@ -343,6 +334,15 @@ docs = [
     { name = "mkdocstrings", extras = ["python"] },
 ]
 test = [{ name = "pytest" }]
+
+[[package]]
+name = "maya-stubs"
+version = "0.4.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/83/ac/cb12a396f8dad98fa15dae801899e8d1ff39debdaa66fe81cd8d93e4d666/maya_stubs-0.4.2.tar.gz", hash = "sha256:86eb6901b4e341895c572a94c055d0248903720a42c22a9a507bdcfda52e9da0", size = 313929, upload-time = "2025-10-30T21:43:30.561Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fd/39/df15b423c029fe7dcdf43814f4776fb689c86e6fc48ab36af3cae63b2732/maya_stubs-0.4.2-py3-none-any.whl", hash = "sha256:2dd28457af1877293f5b7544eea5a14384ad89b5a59796847c6c68c1a44f0db9", size = 258974, upload-time = "2025-10-30T21:43:28.101Z" },
+]
 
 [[package]]
 name = "mergedeep"
