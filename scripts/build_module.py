@@ -2,8 +2,7 @@
 
 Copies ``src/<package>/`` into a Maya module layout and generates a matching
 ``.mod`` file. Name-agnostic: reads the package name from ``pyproject.toml``
-at build time, so this needs no changes when ``initial_setup.py`` renames
-``src/mayapythonprojecttemplate/``.
+at build time, so this needs no changes when setup renames the source package.
 
 Runtime deps are vendored (not pip-installed at install time) because end
 users can't be assumed able (or allowed) to install into their studio's
