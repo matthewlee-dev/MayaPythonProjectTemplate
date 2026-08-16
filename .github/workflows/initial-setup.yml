@@ -57,7 +57,6 @@ jobs:
           rm -f initial_setup.py
           rm -f .github/workflows/initial-setup.yml
           rm -f .github/workflows/template-ci.yml
-          rm -f .github/workflows/template-release.yml
           rm -f .github/workflows/reusable-template-tests.yml
           rm -f .github/FUNDING.yml
           rm -rf tests/template
