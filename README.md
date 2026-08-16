@@ -3,9 +3,9 @@
 <div align="center">
 
 [![CI](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml/badge.svg)](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml)
+[![pytest][pytest-shield]][pytest-url]
 [![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![GitHub Actions][github-actions-shield]][github-actions-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -15,6 +15,7 @@
 
 [![Python][python_3-shield]][python-url]
 [![Maya][maya-shield]][maya-url]
+[![GitHub Actions][github-actions-shield]][github-actions-url]
 <h3 align="center">Maya Python Project Template</h3>
 
   <p align="center">
@@ -85,6 +86,8 @@ Wait for the `initial repository setup` workflow to finish before cloning. See [
 [python-url]: https://python.org/
 [github-actions-shield]: https://img.shields.io/badge/GitHub%20Actions-%232671E5?logo=githubactions&logoColor=white
 [github-actions-url]: https://github.com/features/actions
+[pytest-shield]: https://img.shields.io/badge/tests-pytest-%230A9EDC
+[pytest-url]: https://docs.pytest.org/
 
 <!-- Maya -->
 [maya-shield]: https://img.shields.io/badge/Autodesk-Maya-%2337A5CC?logo=autodeskmaya&logoColor=%2337A5CC
