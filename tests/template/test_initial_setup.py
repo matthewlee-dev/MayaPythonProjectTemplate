@@ -6,6 +6,7 @@ from initial_setup import (
     TEMPLATE_DOCS_NAV,
     TEMPLATE_REPO_NAME,
     TEMPLATE_REPO_URL,
+    TEMPLATE_SITE_NAME,
     package_name_from,
     replace_text_in_file,
     reset_project_version,
@@ -122,12 +123,12 @@ class TestReplaceTextInFile:
     def test_replaces_real_literal_expects_mkdocs_site_name_updated(self, tmp_path):
         # Arrange
         target = tmp_path / "mkdocs.yml"
-        target.write_text("site_name: maya-python-project-template\n")
+        target.write_text("site_name: Maya Python Project Template\n")
 
         # Act
         replace_text_in_file(
             "mkdocs.yml",
-            "site_name: maya-python-project-template",
+            "site_name: Maya Python Project Template",
             "site_name: my-cool-tool",
             root=tmp_path,
         )
@@ -159,6 +160,17 @@ class TestTemplateRepoLink:
 
         # Act
         result = TEMPLATE_REPO_URL in mkdocs
+
+        # Assert
+        assert result is True
+
+    def test_repo_mkdocs_expects_site_name_literal_matched(self):
+        # Arrange: without this, a renamed site_name would silently leave
+        # generated projects showing the template's name in their docs header.
+        mkdocs = (REPO_ROOT / "mkdocs.yml").read_text()
+
+        # Act
+        result = TEMPLATE_SITE_NAME in mkdocs
 
         # Assert
         assert result is True

@@ -29,6 +29,7 @@ TEMPLATE_REPO_URL = (
     "repo_url: https://github.com/matthewlee-dev/maya-python-project-template"
 )
 TEMPLATE_REPO_NAME = "repo_name: matthewlee-dev/maya-python-project-template"
+TEMPLATE_SITE_NAME = "site_name: Maya Python Project Template"
 
 
 def replace_text_in_file(file_name, placeholder, replacement_text, root=None):
@@ -165,10 +166,12 @@ if __name__ == "__main__":
     replace_text_in_file("CONTRIBUTING.md", "{{PROJECT_OWNER}}", user_name)
     replace_text_in_file("CONTRIBUTING.md", "{{PROJECT_TITLE}}", project_title)
     replace_text_in_file("CONTRIBUTING.md", "{{PROJECT_NAME}}", project_name)
+    # site_name is the docs header, so it gets the display title rather than the
+    # repo slug. repo_name below keeps the slug, since that labels the repo link.
     replace_text_in_file(
         "mkdocs.yml",
-        "site_name: maya-python-project-template",
-        f"site_name: {project_name}",
+        TEMPLATE_SITE_NAME,
+        f"site_name: {project_title}",
     )
     replace_text_in_file(
         "mkdocs.yml",
