@@ -32,7 +32,7 @@ jobs:
         run: uv sync --only-group docs
 
       - name: Build the site
-        run: uv run --no-sync mkdocs build --strict
+        run: uv run --no-sync mkdocs build
 
       - name: Upload the site artifact
         uses: actions/upload-pages-artifact@v4

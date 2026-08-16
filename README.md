@@ -2,24 +2,27 @@
 
 <div align="center">
 
+[![CI](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml/badge.svg)](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml)
+[![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![GitHub Actions][github-actions-shield]][github-actions-url]
 
 <!-- PROJECT LOGO -->
 <br />
   <a href="https://github.com/matthewlee-dev/maya-python-project-template">
-    <img src="docs/resources/images/maya_python_logo.png" alt="MayaPythonLogo" width="175" height="175">
+    <img src="docs/resources/images/maya_python_logo.png" alt="MayaPythonLogo" width="250" height="250">
   </a>
 
-[![CI](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml/badge.svg)](https://github.com/matthewlee-dev/maya-python-project-template/actions/workflows/template-ci.yml)
-[![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Python][python_3-shield]][python-url]
 [![Maya][maya-shield]][maya-url]
-[![GitHub Actions][github-actions-shield]][github-actions-url]
-
 <h3 align="center">Maya Python Project Template</h3>
 
   <p align="center">
-    A GitHub template for Maya Python tools<br>
+    A GitHub template for Maya Python tools
+    <br />
+    <a href="https://matthewlee-dev.github.io/maya-python-project-template"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
     <a href="https://github.com/matthewlee-dev/maya-python-project-template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/matthewlee-dev/maya-python-project-template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -30,6 +33,10 @@
 Maya Python projects often start as a small collection of scripts and grow into production tools without the development infrastructure growing with them.
 
 This template provides a modern, reproducible foundation for that infrastructure from the outset, so a tool can go from initial development to reliable distribution. The goal isn't to prescribe how a Maya tool should be written, just to remove the repetitive setup work around it.
+
+> [!NOTE]
+> Example project built from this template:
+> [locator-creator](https://github.com/matthewlee-dev/locator-creator).
 
 ## How to use this template
 
