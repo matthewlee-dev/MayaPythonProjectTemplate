@@ -1,0 +1,24 @@
+# Docs publish on push, not on release, so the site never lags main.
+name: docs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - mkdocs.yml
+      - src/**
+      - .github/workflows/docs.yml
+      - .github/workflows/reusable-build-and-deploy-docs.yml
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+
+  docs:
+    uses: ./.github/workflows/reusable-build-and-deploy-docs.yml

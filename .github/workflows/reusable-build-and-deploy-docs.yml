@@ -3,12 +3,19 @@ name: reusable / build and deploy docs
 on:
   workflow_dispatch:  # Manual trigger
   workflow_call:
+
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Pages allows one deploy at a time; don't cancel one half-done.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy-docs:
-    # only build docs when publishing a release
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,14 +25,29 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
+          enable-cache: true
           python-version: '3.13'
-
-      - uses: actions/cache@v6
-        with:
-          key: ${{ github.ref }}
-          path: .cache
 
       - name: Install dependencies
         run: uv sync --only-group docs
 
-      - run: uv run --no-sync mkdocs gh-deploy --force
+      - name: Build the site
+        run: uv run --no-sync mkdocs build --strict
+
+      - name: Upload the site artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
