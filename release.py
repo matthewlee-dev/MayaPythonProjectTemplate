@@ -13,7 +13,6 @@ Usage:
     python3 release.py --bump major        # 1.0.0
     python3 release.py --bump patch --dry-run
     python3 release.py --bump patch --skip-vendor  # ship without vendored deps
-    python3 release.py --bump patch --template     # release the template itself
 """
 
 from __future__ import annotations
@@ -30,7 +29,6 @@ import tomllib
 REPO_ROOT = Path(__file__).resolve().parent
 PYPROJECT = REPO_ROOT / "pyproject.toml"
 WORKFLOW = "ci-release.yml"
-TEMPLATE_WORKFLOW = "template-release.yml"
 REMOTE = "origin"
 MAIN_BRANCH = "main"
 
@@ -125,8 +123,8 @@ def _preflight() -> None:
     branch = _capture(["git", "rev-parse", "--abbrev-ref", "HEAD"])
     if branch != MAIN_BRANCH:
         _die(
-            f"on '{branch}', not '{MAIN_BRANCH}'. The release workflow bumps "
-            f"and commits to '{MAIN_BRANCH}', so check it out first."
+            f"on '{branch}', not '{MAIN_BRANCH}'. Releases are cut from "
+            f"'{MAIN_BRANCH}', so check it out first."
         )
 
     # Untracked junk (build artifacts, .idea/, etc.) doesn't block the release.
@@ -157,7 +155,7 @@ def _confirm(prompt: str, assume_yes: bool) -> None:
         _die("aborted.")
 
 
-def _dispatch(version: str, dry_run: bool, skip_vendor: bool, template: bool) -> None:
+def _dispatch(version: str, dry_run: bool, skip_vendor: bool) -> None:
     """Dispatch the release workflow for the given version.
 
     Args:
@@ -165,26 +163,15 @@ def _dispatch(version: str, dry_run: bool, skip_vendor: bool, template: bool) ->
         dry_run: If True, print the command instead of running it.
         skip_vendor: If True, tell the workflow to ship without vendoring
             runtime dependencies, even if the project has them.
-        template: If True, dispatch the template's own source release instead
-            of the Maya module release.
 
     Raises:
-        SystemExit: If the chosen workflow isn't in this repo. Each exists on
-            only one side: the template release workflow is deleted by setup,
-            and the project's is still under ``_new_project/`` until then.
+        SystemExit: If the release workflow is missing from this repo.
     """
-    workflow = TEMPLATE_WORKFLOW if template else WORKFLOW
-    if not (REPO_ROOT / ".github" / "workflows" / workflow).is_file():
-        hint = (
-            "--template only works in the template repo."
-            if template
-            else "run it in a project generated from the template, or pass --template."
-        )
-        _die(f"{workflow} not found, {hint}")
+    if not (REPO_ROOT / ".github" / "workflows" / WORKFLOW).is_file():
+        _die(f"{WORKFLOW} not found in .github/workflows.")
 
-    cmd = ["gh", "workflow", "run", workflow, "-f", f"version={version}"]
-    # The template ships as source: it has no module to vendor into.
-    if skip_vendor and not template:
+    cmd = ["gh", "workflow", "run", WORKFLOW, "-f", f"version={version}"]
+    if skip_vendor:
         cmd += ["-f", "vendor_deps=false"]
     if dry_run:
         print(f"[dry-run] would dispatch: {' '.join(cmd)}")
@@ -220,41 +207,29 @@ def main(argv: list[str]) -> int:
         help="Ship without vendoring runtime dependencies, even if the "
         "project has them.",
     )
-    parser.add_argument(
-        "--template",
-        action="store_true",
-        help="Release the template itself (tag + source archive) rather than "
-        "building a Maya module. Template repo only.",
-    )
     args = parser.parse_args(argv)
-
-    if args.template and args.skip_vendor:
-        _die(
-            "--skip-vendor is meaningless with --template, the template has no module."
-        )
 
     _preflight()
 
-    old = _read_version()
-    new = _bump(old, args.bump)
-    old_str = ".".join(map(str, old))
-    new_str = ".".join(map(str, new))
+    current = _read_version()
+    current_str = ".".join(map(str, current))
+
+    new_str = ".".join(map(str, _bump(current, args.bump)))
 
     _confirm(
-        f"Dispatch {'template ' if args.template else ''}release "
-        f"{old_str} -> {new_str} (workflow bumps, tests, tags, and publishes)"
+        f"Dispatch release {current_str} -> {new_str} "
+        "(workflow bumps, tests, tags, and publishes)"
         + (", without vendoring dependencies" if args.skip_vendor else "")
         + "?",
         args.yes,
     )
 
-    _dispatch(new_str, args.dry_run, args.skip_vendor, args.template)
+    _dispatch(new_str, args.dry_run, args.skip_vendor)
 
     if not args.dry_run:
-        built = "deploy the docs" if args.template else "build the module zip"
         print(
             f"\nDispatched release {new_str}. The workflow will run tests, bump "
-            f"pyproject.toml, tag, {built}, and create the GitHub "
+            "pyproject.toml, tag, build the module zip, and create the GitHub "
             "Release. Watch it under the Actions tab."
         )
     return 0
