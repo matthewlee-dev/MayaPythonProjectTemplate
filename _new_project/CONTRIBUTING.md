@@ -146,7 +146,7 @@ Serve locally:
 * [ci-main.yml](.github/workflows/ci-main.yml): tests (if any) + lint/format checks. Runs on every push/PR to main.
 * [ci-release.yml](.github/workflows/ci-release.yml): the above, then bumps `pyproject.toml`, tags, builds the Maya module zip, creates a GitHub release, and deploys docs. Trigger with `python3 release.py --bump patch` (or `minor`/`major`), or `gh workflow run ci-release.yml -f version=1.2.3`.
 
-Maya versions to test against are set in [reusable-maya-tests.yml](.github/workflows/reusable-maya-tests.yml); that job is skipped if `tests` don't exist. Docs deploy to [https://{{PROJECT_OWNER}}.github.io/{{PROJECT_NAME}}](https://{{PROJECT_OWNER}}.github.io/{{PROJECT_NAME}}); enable once via repo Settings > Pages, source: `gh-pages` branch.
+Maya versions to test against are set in [reusable-maya-tests.yml](.github/workflows/reusable-maya-tests.yml); that job is skipped if `tests` don't exist. Docs deploy on push to main via [docs.yml](.github/workflows/docs.yml), to [https://{{PROJECT_OWNER}}.github.io/{{PROJECT_NAME}}](https://{{PROJECT_OWNER}}.github.io/{{PROJECT_NAME}}); enable once via repo Settings > Pages, source: `GitHub Actions`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -19,15 +19,8 @@ jobs:
     if: ${{ github.event.repository.is_template }}
     uses: ./.github/workflows/reusable-template-tests.yml
 
-  # Before the tag, so a docs failure stops the release.
-  docs:
-    needs: [static-analysis, template-tests]
-    uses: ./.github/workflows/reusable-build-and-deploy-docs.yml
-    permissions:
-      contents: write
-
   do_release:
-    needs: [static-analysis, template-tests, docs]
+    needs: [static-analysis, template-tests]
     runs-on: ubuntu-latest
     concurrency: release
     permissions:

@@ -32,7 +32,7 @@ line per module you want documented.
 
 ## Publishing
 
-Docs deploy automatically when you [cut a release](releasing.md), to
-`https://your-name.github.io/my-cool-tool`.
+Docs deploy on every push to `main` that touches `docs/`, `mkdocs.yml`, or
+`src/`, to `https://your-name.github.io/my-cool-tool`.
 
-Enable it once: repo **Settings** → **Pages** → source **gh-pages** branch.
+Enable it once: repo **Settings** → **Pages** → source **GitHub Actions**.

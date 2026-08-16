@@ -7,9 +7,9 @@ A release turns your code into something a user can install.
 On GitHub, go to **Actions** → **Release** → **Run workflow**, then type the
 version number (e.g. `1.2.4`).
 
-GitHub bumps the version, runs the checks, tags the code, builds the zip,
-publishes it on your repo's Releases page, and updates your
-[docs site](documentation.md).
+GitHub bumps the version, runs the checks, tags the code, builds the zip, and
+publishes it on your repo's Releases page. Your
+[docs site](documentation.md) updates separately, on push.
 
 The other three fields only apply if your tool has dependencies:
 

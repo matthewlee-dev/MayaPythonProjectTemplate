@@ -30,5 +30,5 @@ This is an Autodesk Maya Python tool, created from
   `gh workflow run ci-release.yml -f version=1.2.3`. It bumps `version` in
   `pyproject.toml`, tags `v<version>`, builds an installable Maya module zip
   (`.mod` + `<name>_drag_and_drop_installer.py`) and attaches it to a GitHub
-  release, and deploys docs to GitHub Pages.
+  release.
 - CI on push/PR runs static analysis (ruff) and the Maya test matrix.

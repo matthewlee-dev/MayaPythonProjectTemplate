@@ -49,10 +49,3 @@ jobs:
       vendor_deps: ${{ inputs.vendor_deps }}
     permissions:
       contents: write
-
-  docs:
-    if: ${{ !github.event.repository.is_template }}
-    needs: [tests, do_release]  # only build docs when release is successful
-    uses: ./.github/workflows/reusable-build-and-deploy-docs.yml
-    permissions:
-      contents: write
