@@ -59,6 +59,7 @@ jobs:
           rm -f .github/workflows/template-ci.yml
           rm -f .github/workflows/template-release.yml
           rm -f .github/workflows/reusable-template-tests.yml
+          rm -f .github/FUNDING.yml
           rm -rf tests/template
 
       - name: Commit and push changes
