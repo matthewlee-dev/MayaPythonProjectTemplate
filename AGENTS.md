@@ -48,12 +48,10 @@ The new repo has its own `AGENTS.md` with day-to-day commands (generated from
   the container is ephemeral. For local runs against a real Maya install, use the
   `PYTHONPATH` + disposable-venv pattern in [_new_project/CONTRIBUTING.md](_new_project/CONTRIBUTING.md#tests)
   instead.
-- `pyproject.toml` and `mkdocs.yml` deliberately contain **real** values
-  (`name = "mayapythonprojecttemplate"`, real description, real wheel path,
-  `site_name: maya-python-project-template`) rather than `{{...}}` placeholders, so both
-  files stay valid (TOML / YAML) and `uv`/`mkdocs build` work on a clone of the
-  template itself. `initial_setup.py` string-replaces those literals during setup; if
-  you change them in `pyproject.toml` or `mkdocs.yml`, update the matching literals in
+- `pyproject.toml` and `mkdocs.yml` deliberately contain **real** values rather
+  than `{{...}}` placeholders, so both files stay valid and `uv`/`mkdocs build`
+  work on a clone of the template itself. `initial_setup.py` string-replaces
+  those literals during setup; if you change one, update its match in
   `initial_setup.py`.
 - Templated files (everything under `_new_project/`, plus
   `tests/maya/test_example.py`) use `{{PROJECT_OWNER}}` / `{{PROJECT_NAME}}` /

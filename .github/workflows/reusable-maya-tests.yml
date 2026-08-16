@@ -25,13 +25,12 @@ jobs:
       - name: Check for tests
         id: check_tests
         run: |
-          #!/bin/bash
-          set +e  # Disable exit on error
+          set +e
           # --ignore=tests/template: CI also fires on a generated repo's
           # first commit, before setup has deleted the template's own tests.
           output=$(uv run --no-sync pytest --collect-only --ignore=tests/template)
           exit_code=$?
-          set -e  # Re-enable exit on error
+          set -e
           echo "$output"
 
           # Exit 5 is the only non-zero status meaning "nothing to run". A

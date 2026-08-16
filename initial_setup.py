@@ -3,9 +3,10 @@ import os
 import re
 from pathlib import Path
 
-# The nav block in mkdocs.yml listing the template's own documentation pages.
-# Kept as a literal (not a {{...}} placeholder) so mkdocs.yml stays valid YAML
-# and buildable on the template repo itself, same reasoning as site_name.
+# mkdocs.yml, pyproject.toml, and docs/reference.md carry real values rather
+# than {{...}} placeholders so they stay valid and buildable on the template
+# repo itself. Setup replaces those exact literals; tests/template guards
+# against the two sides drifting apart.
 TEMPLATE_DOCS_NAV = """nav:
   - index.md
   - getting-started.md
@@ -18,15 +19,12 @@ TEMPLATE_DOCS_NAV = """nav:
   - reference.md
 """
 
-# reference.md ships to generated projects, so the nav setup leaves behind keeps
-# it. Only the pages documenting the template itself are dropped.
+# reference.md ships to generated projects; only the template's own pages drop.
 GENERATED_DOCS_NAV = """nav:
   - index.md
   - reference.md
 """
 
-# mkdocs.yml's repo link, kept as a real literal (not a {{...}} placeholder),
-# same reasoning as TEMPLATE_DOCS_NAV above.
 TEMPLATE_REPO_URL = (
     "repo_url: https://github.com/matthewlee-dev/maya-python-project-template"
 )
@@ -167,16 +165,11 @@ if __name__ == "__main__":
     replace_text_in_file("CONTRIBUTING.md", "{{PROJECT_OWNER}}", user_name)
     replace_text_in_file("CONTRIBUTING.md", "{{PROJECT_TITLE}}", project_title)
     replace_text_in_file("CONTRIBUTING.md", "{{PROJECT_NAME}}", project_name)
-    # mkdocs.yml carries a real site_name (not a {{...}} placeholder), same
-    # reasoning as pyproject.toml below: `mkdocs build` needs valid YAML with a
-    # real value to work on the template repo itself.
     replace_text_in_file(
         "mkdocs.yml",
         "site_name: maya-python-project-template",
         f"site_name: {project_name}",
     )
-    # repo_url/repo_name carry real values (not {{...}} placeholders), same
-    # reasoning as site_name above.
     replace_text_in_file(
         "mkdocs.yml",
         TEMPLATE_REPO_URL,
@@ -194,22 +187,19 @@ if __name__ == "__main__":
     replace_text_in_file(
         "tests/maya/test_example.py", "{{PROJECT_NAME}}", new_project_name
     )
-    # A real module path (not a {{...}} placeholder) so mkdocstrings can resolve
-    # it on the template repo itself, same reasoning as mkdocs.yml above.
     replace_text_in_file(
         "docs/reference.md",
         "::: mayapythonprojecttemplate.example",
         f"::: {new_project_name}.example",
     )
-    # The module docstring renders as the heading on the reference page, so it
-    # has to follow the package rename.
+    # The module docstring renders as the reference page heading, so it must
+    # follow the package rename.
     replace_text_in_file(
         f"src/{new_project_name}/example.py",
         '"""mayapythonprojecttemplate package."""',
         f'"""{new_project_name} package."""',
     )
-    # pyproject.toml carries real values (not {{...}} placeholders) so the template
-    # repo itself stays valid TOML for uv. json.dumps produces TOML-safe strings.
+    # json.dumps produces TOML-safe strings.
     replace_text_in_file(
         "pyproject.toml",
         'packages = ["src/mayapythonprojecttemplate"]',
