@@ -1,28 +1,57 @@
+# Thin trigger wrapper, job logic lives in reusable-*.yml so ci-main and
+# ci-release share it.
 name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.2.3)"
+        required: true
+        type: string
+      platforms:
+        description: "Platforms to vendor runtime deps for (e.g: win64, linux, mac)"
+        required: false
+        type: string
+        # release.py never passes these, so the defaults are what ships. Keep
+        # in step with reusable-maya-tests.yml: a Maya version with no .mod row
+        # won't load the module, even though CI went green on it.
+        default: "win64,linux,mac"
+      maya_versions:
+        description: "Maya versions to vendor runtime deps for (e.g: 2024,2025,2026)"
+        required: false
+        type: string
+        default: "2024,2025,2026,2027"
+      vendor_deps:
+        description: "Vendor runtime dependencies into the module (uncheck to ship without them)"
+        required: false
+        type: boolean
+        default: true
 
 jobs:
 
   static-analysis:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
+    if: ${{ !github.event.repository.is_template }}
     uses: ./.github/workflows/reusable-static-analysis.yml
 
   tests:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
+    if: ${{ !github.event.repository.is_template }}
     uses: ./.github/workflows/reusable-maya-tests.yml
 
   do_release:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
-    needs: [tests]
-    uses: ./.github/workflows/reusable-semantic-release.yml
+    if: ${{ !github.event.repository.is_template }}
+    needs: [tests, static-analysis]
+    uses: ./.github/workflows/reusable-release.yml
+    with:
+      version: ${{ inputs.version }}
+      platforms: ${{ inputs.platforms }}
+      maya_versions: ${{ inputs.maya_versions }}
+      vendor_deps: ${{ inputs.vendor_deps }}
     permissions:
       contents: write
-      id-token: write
 
   docs:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
+    if: ${{ !github.event.repository.is_template }}
     needs: [tests, do_release]  # only build docs when release is successful
     uses: ./.github/workflows/reusable-build-and-deploy-docs.yml
     permissions:

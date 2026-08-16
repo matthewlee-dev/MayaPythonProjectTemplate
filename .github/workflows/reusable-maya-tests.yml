@@ -1,43 +1,62 @@
-name: maya tests
+name: reusable / maya tests
 
 on:
   workflow_call:
   workflow_dispatch:  # Manual trigger
 
 jobs:
+  # Cheap gate: skips the disk purge + multi-GB Maya image pull when there are
+  # no tests, the common case for freshly created template projects.
   collect_tests:
     runs-on: ubuntu-latest
     outputs:
       tests_collected: ${{ steps.check_tests.outputs.tests_collected }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: '3.x'
+          python-version: '3.13'
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest
+        run: uv sync --only-group test
 
       - name: Check for tests
         id: check_tests
         run: |
           #!/bin/bash
           set +e  # Disable exit on error
-          pytest --collect-only
+          # --ignore=tests/template: CI also fires on a generated repo's
+          # first commit, before setup has deleted the template's own tests.
+          output=$(uv run --no-sync pytest --collect-only --ignore=tests/template)
           exit_code=$?
           set -e  # Re-enable exit on error
-          
+          echo "$output"
+
+          # Exit 5 is the only non-zero status meaning "nothing to run". A
+          # collection error (exit 2) also prints "collected 0 items", so
+          # treating it as an empty suite would skip every test and stay green.
           if [ $exit_code -eq 5 ]; then
             echo "tests_collected=0" >> $GITHUB_OUTPUT
             echo "No tests were collected."
-          else
-            collected=$(pytest --collect-only | grep -oP 'collected \K\d+')
-            echo "tests_collected=$collected" >> $GITHUB_OUTPUT
-            echo "Collected $collected tests."
+            exit 0
           fi
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::pytest --collect-only failed (exit $exit_code)." \
+              "Tests must import outside Maya: move 'from maya import ...'" \
+              "into a test or fixture, as tests/maya/conftest.py does."
+            exit 1
+          fi
+
+          collected=$(echo "$output" | grep -oP 'collected \K\d+')
+          if [ -z "$collected" ]; then
+            echo "::error::Could not parse a test count from pytest output."
+            exit 1
+          fi
+          echo "tests_collected=$collected" >> $GITHUB_OUTPUT
+          echo "Collected $collected tests."
 
   no_tests_found:
     needs: collect_tests
@@ -58,28 +77,38 @@ jobs:
       fail-fast: false
 
       matrix:
-        # add or remove versions as needed, a job per version will be created
-        # supported tags here: https://github.com/mottosso/docker-maya/
-        maya_version: ["2024",]
-
-    container: mottosso/maya:${{ matrix.maya_version }}  # ty mottosso!
+        # add/remove versions to match what you target; tags: https://github.com/mottosso/docker-maya/
+        maya_version: ["2024"]
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Install dependencies
+      # No job-level `container:`: that pulls before any step can free disk space first,
+      # and large Maya images can exceed the runner's free disk mid-pull.
+      - name: Free disk space
         run: |
-          mayapy -m pip install --upgrade pip
-          mayapy -m pip install pip-tools
-          pip-compile requirements.in
-          pip-compile requirements-test.in
-          mayapy -m pip install --user -r requirements-test.txt
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+            /usr/local/share/powershell /usr/share/swift /opt/hostedtoolcache/CodeQL
+          df -h /
 
-      - name: Set Maya environment variables
+      - name: Pull Maya image
+        run: docker pull mottosso/maya:${{ matrix.maya_version }}  # ty mottosso!
+
+      - name: Install test dependencies and run tests in Maya container
         run: |
-          echo "XDG_RUNTIME_DIR=/var/tmp/runtime-root" >> $GITHUB_ENV
-          echo "MAYA_DISABLE_ADP=1" >> $GITHUB_ENV
-
-      - name: Run tests
-        run:  mayapy -m pytest tests
+          docker run --rm \
+            -e XDG_RUNTIME_DIR=/var/tmp/runtime-root \
+            -e MAYA_DISABLE_ADP=1 \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            mottosso/maya:${{ matrix.maya_version }} \
+            bash -c '
+              set -e
+              if command -v curl >/dev/null; then curl -LsSf https://astral.sh/uv/install.sh | sh
+              else wget -qO- https://astral.sh/uv/install.sh | sh
+              fi
+              export PATH="$HOME/.local/bin:$PATH"
+              uv pip install --python "$(command -v mayapy)" --group test .
+              mayapy -m pytest tests --ignore=tests/template
+            '

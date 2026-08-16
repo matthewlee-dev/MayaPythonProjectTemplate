@@ -9,6 +9,9 @@
     <img src="docs/resources/images/maya_python_logo.png" alt="MayaPythonLogo" width="175" height="175">
   </a>
 
+[![CI](https://github.com/matthewlee-dev/MayaPythonProjectTemplate/actions/workflows/template-ci.yml/badge.svg)](https://github.com/matthewlee-dev/MayaPythonProjectTemplate/actions/workflows/template-ci.yml)
+[![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Python][python_3-shield]][python-url]
 [![Maya][maya-shield]][maya-url]
 [![GitHub Actions][github-actions-shield]][github-actions-url]
@@ -23,30 +26,41 @@
   </p>
 </div>
 
-> Example project built using this template can be found [here](https://github.com/matthewlee-dev/locator_creator). 
+## Why this template exists
+Maya Python projects often start as a small collection of scripts and grow into production tools without the development infrastructure growing with them.
 
-## HOW TO USE THIS TEMPLATE
+This template provides a modern, reproducible foundation for that infrastructure from the outset, so a tool can go from initial development to reliable distribution. The goal isn't to prescribe how a Maya tool should be written, just to remove the repetitive setup work around it.
 
-### DO NOT FORK this is meant to be used from [Use this template][use-template-link] feature.
+## How to use this template
 
-1. Click on [Use this template][use-template-link] button.
-2. Give a name and description to the new project (e.g. my_awesome_project, please use all lowercase and underscores separation for repo names).
-3. GitHub Actions will process the template and commit to the new repo, this may take a few minutes. Check the progress in the Actions tab of the new repository.
-4. Once setup is complete, clone the new project and start coding!
+### Do not fork. Use the [Use this template][use-template-link] button instead.
 
-> NOTE: WAIT until first CI run on GitHub actions before cloning the new project. This will be kicked off automatically after creating the new repo from the template, and should take a couple of minutes to complete.
+1. Click [Use this template][use-template-link].
+2. Name the new project (lowercase, hyphen-separated, e.g. `my-awesome-project`) and add a description.
+3. GitHub Actions processes the template and commits to the new repo. Check progress in the Actions tab.
+4. Wait for the first CI run to finish, then clone and start coding.
+
+### CLI / agent quickstart
+
+No browser needed:
+
+```sh
+gh repo create my-cool-tool --template matthewlee-dev/MayaPythonProjectTemplate --public
+```
+
+Wait for the `initial repository setup` workflow to finish before cloning. See [AGENTS.md](AGENTS.md) for the full non-interactive flow.
 
 ## What is included in this template?
 * Basic project structure.
-* [README.md](_README) and [CONTRIBUTING](CONTRIBUTING.md) templates.
+* Dependency and packaging management with [uv](https://docs.astral.sh/uv/), configured via `pyproject.toml`.
+* [README.md](_new_project/README.md) and [CONTRIBUTING.md](_new_project/CONTRIBUTING.md) templates.
 * Bug report and feature request templates.
 * Continuous integration using [GitHub Actions][github-actions-url] with jobs to:
   * [Run integration tests](.github/workflows/reusable-maya-tests.yml) across a range of Maya versions in isolated Docker containers. 
     * `Note: You should hold a valid Maya license.`
-  * [Enforce coding standards](.github/workflows/reusable-static-analysis.yml) with [pylint](https://pypi.org/project/pylint/), [black](https://github.com/psf/black), and [mypy](https://mypy.readthedocs.io/en/stable/).
+  * [Enforce coding standards](.github/workflows/reusable-static-analysis.yml) with [ruff](https://github.com/astral-sh/ruff).
   * [Build and deploy documentation](.github/workflows/reusable-build-and-deploy-docs.yml) to GitHub pages with [mkdocs](https://www.mkdocs.org/).
-  * [Automated releases](.github/workflows/ci-release.yml) using Python Semantic Versioning (optional).
-
+  * [Manually triggered releases](.github/workflows/ci-release.yml): pick a version number and it tags, releases, and deploys docs (optional). The release also builds an installable Maya module zip (`.mod` + `<name>_drag_and_drop_installer.py`) and attaches it to the GitHub Release.
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
@@ -62,8 +76,6 @@
 <!-- Python -->
 [python_3-shield]: https://img.shields.io/badge/Python-3.X-grey?logo=python&logoColor=ffdd54&labelColor=%233670A0
 [python-url]: https://python.org/
-[pytest-shield]: https://img.shields.io/badge/tests-pytest-%230A9EDC
-[pytest-url]: https://docs.pytest.org/
 [github-actions-shield]: https://img.shields.io/badge/GitHub%20Actions-%232671E5?logo=githubactions&logoColor=white
 [github-actions-url]: https://github.com/features/actions
 

@@ -1,0 +1,92 @@
+# Releases the template itself, not projects made from it. Deleted by setup.
+name: template / release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.2.3, no leading v)"
+        required: true
+        type: string
+
+jobs:
+
+  static-analysis:
+    if: ${{ github.event.repository.is_template }}
+    uses: ./.github/workflows/reusable-static-analysis.yml
+
+  template-tests:
+    if: ${{ github.event.repository.is_template }}
+    uses: ./.github/workflows/reusable-template-tests.yml
+
+  # Before the tag, so a docs failure stops the release.
+  docs:
+    needs: [static-analysis, template-tests]
+    uses: ./.github/workflows/reusable-build-and-deploy-docs.yml
+    permissions:
+      contents: write
+
+  do_release:
+    needs: [static-analysis, template-tests, docs]
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # Workflow inputs reach the shell through `env:`, never by `${{ }}`
+      # expansion inside `run:`. Direct expansion pastes the raw string into the
+      # script before bash parses it, so an input can close the quote and run
+      # arbitrary commands with this job's `contents: write` token.
+      - name: Guard version + tag
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::version '$VERSION' is not x.y.z"
+            exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/v$VERSION" >/dev/null; then
+            echo "::error::tag v$VERSION already exists"
+            exit 1
+          fi
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      # initial_setup.py resets this to 0.0.0 in generated projects, so the
+      # template's own version never leaks downstream.
+      - name: Set version in pyproject.toml
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          uv lock  # keep uv.lock's root-package version in sync with the bump
+
+      - name: Commit version bump
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add pyproject.toml uv.lock
+          # Skip the commit on a re-run where the bump already landed, so a
+          # release that failed after pushing can be re-dispatched.
+          git diff --cached --quiet || git commit -m "chore: release v$VERSION"
+          git push
+
+      # No zip to upload: GitHub attaches source archives to every release.
+      - name: Create GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          gh release create "v$VERSION" \
+            --target "$(git rev-parse HEAD)" \
+            --title "v$VERSION" \
+            --generate-notes \
+            --notes "Template source for v$VERSION. Use the green **Use this template** button to start a project, not these archives."

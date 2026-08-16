@@ -1,0 +1,17 @@
+# The template's own CI. Deleted by setup, along with the reusable it calls.
+name: template / ci
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+
+  static-analysis:
+    uses: ./.github/workflows/reusable-static-analysis.yml
+
+  template-tests:
+    uses: ./.github/workflows/reusable-template-tests.yml

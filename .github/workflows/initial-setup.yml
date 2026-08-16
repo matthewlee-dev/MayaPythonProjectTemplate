@@ -12,7 +12,8 @@ env:
 
 jobs:
   setup:
-    if: github.repository != 'matthewlee-dev/MayaPythonProjectTemplate'
+    # Only run on repos generated from the template, never on a template itself.
+    if: ${{ !github.event.repository.is_template }}
     runs-on: ubuntu-latest
     
     permissions:
@@ -20,38 +21,45 @@ jobs:
       
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Rename README.md and delete setup workflow
+      - name: Swap in the generated project's files
         run: |
           # Delete template LICENSE
           rm -f LICENSE
-          
-          # Delete existing README.md
-          rm -f README.md
-          
-          # Rename _README.md to README.md
-          mv _README.md README.md
-          
-          # Delete the template logo placeholder
-          rm -f docs/resources/images/maya_python_logo.png
-          
-          # Rename template logo
-          mv docs/resources/images/_maya_python_logo.png docs/resources/images/maya_python_logo.png
+
+          # _new_project mirrors the repo layout. Add files there, not here.
+          cp -r _new_project/. .
+          rm -rf _new_project
+
+          # Drop the docs pages that only document the template itself.
+          rm -f docs/getting-started.md docs/project-layout.md \
+                docs/writing-your-tool.md docs/testing.md docs/ci.md \
+                docs/releasing.md docs/documentation.md
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Run initial setup script
         run: |
           python initial_setup.py
+
+      - name: Regenerate uv.lock for the renamed project
+        run: uv lock
 
       - name: Remove setup files
         run: |
           rm -f initial_setup.py
           rm -f .github/workflows/initial-setup.yml
+          rm -f .github/workflows/template-ci.yml
+          rm -f .github/workflows/template-release.yml
+          rm -f .github/workflows/reusable-template-tests.yml
+          rm -rf tests/template
 
       - name: Commit and push changes
         run: |

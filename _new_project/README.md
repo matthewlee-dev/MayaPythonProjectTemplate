@@ -5,9 +5,8 @@
 
 [![CI](https://github.com/{{PROJECT_OWNER}}/{{PROJECT_NAME}}/actions/workflows/ci-main.yml/badge.svg)](https://github.com/{{PROJECT_OWNER}}/{{PROJECT_NAME}}/actions/workflows/ci-main.yml)
 [![pytest][pytest-shield]][pytest-url]
-[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+[![Managed with uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
 <!-- PROJECT LOGO -->
@@ -20,7 +19,7 @@
 [![Maya][maya-2024-2027-shield]][maya-2027-url]
 [![Maya][maya-cmds-shield]][maya-cmds-url]
 
-<h3 align="center">{{PROJECT_NAME}}</h3>
+<h3 align="center">{{PROJECT_TITLE}}</h3>
   {{PROJECT_DESC}}
   <br />
   <p align="center">
@@ -98,7 +97,7 @@ Please replace this text with a list of pre-requisites for the project.
 
 ### Installation
 
-1. Either clone the repo or download the zip file from the [project page][project-link] and extract it. 
+1. Clone the repo, or download and extract the zip from the [project page][project-link].
     ```sh
     git clone https://github.com/{{PROJECT_OWNER}}/{{PROJECT_NAME}}.git  
     ```
